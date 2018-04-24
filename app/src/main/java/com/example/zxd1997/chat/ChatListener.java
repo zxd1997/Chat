@@ -1,6 +1,5 @@
 package com.example.zxd1997.chat;
 
-import android.app.Application;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
@@ -14,18 +13,19 @@ import okio.ByteString;
 public class ChatListener extends WebSocketListener {
     WebSocket Socket;
     LocalBroadcastManager localBroadcastManager;
+
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
         super.onOpen(webSocket, response);
-        localBroadcastManager=LocalBroadcastManager.getInstance(MyApplication.getContext());
-        Socket=webSocket;
+        localBroadcastManager = LocalBroadcastManager.getInstance(MyApplication.getContext());
+        Socket = webSocket;
         webSocket.send("Connected");
     }
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
         super.onMessage(webSocket, text);
-        Log.d("message", "onMessage: "+text);
+        Log.d("message", "onMessage: " + text);
         broadcast(text);
     }
 
@@ -48,9 +48,10 @@ public class ChatListener extends WebSocketListener {
     public void onFailure(WebSocket webSocket, Throwable t, @Nullable Response response) {
         super.onFailure(webSocket, t, response);
     }
-    public void broadcast(String message){
-        Intent intent=new Intent(MainActivity.MESSAGE_ACTION);
-        intent.putExtra("message",message);
+
+    public void broadcast(String message) {
+        Intent intent = new Intent(MainActivity.MESSAGE_ACTION);
+        intent.putExtra("message", message);
         localBroadcastManager.sendBroadcast(intent);
     }
 }
