@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp">
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/selfheader"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        fresco:placeholderImage="@mipmap/ic_launcher_round"
+        android:layout_alignParentRight="true"
+        android:layout_margin="5dp"
+        fresco:roundAsCircle="true"/>
+
+    <TextView
+        android:id="@+id/selfname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_toStartOf="@id/selfheader"
+        android:text="TextView" />
+
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/selfname"
+        android:layout_below="@+id/selfname"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="3dp"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:id="@+id/selfcontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_margin="4dp"/>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
