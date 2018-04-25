@@ -12,14 +12,17 @@ import okio.ByteString;
 
 public class ChatListener extends WebSocketListener {
     WebSocket Socket;
+    String username;
     LocalBroadcastManager localBroadcastManager;
-
+    public ChatListener(String usernmae){
+        this.username=usernmae;
+    }
     @Override
     public void onOpen(WebSocket webSocket, Response response) {
         super.onOpen(webSocket, response);
         localBroadcastManager = LocalBroadcastManager.getInstance(MyApplication.getContext());
         Socket = webSocket;
-        webSocket.send("Connected");
+        Socket.send("Connect//"+username);
     }
 
     @Override

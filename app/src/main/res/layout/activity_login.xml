@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <ImageButton
+        android:id="@+id/ip"
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        fresco:srcCompat="@android:drawable/ic_menu_edit"
+        android:layout_alignParentRight="true"
+        />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/bigHeader"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/l1"
+        android:layout_marginBottom="70dp"
+        fresco:placeholderImage="@drawable/freedomchild"
+        fresco:roundAsCircle="true" />
+
+    <LinearLayout
+        android:id="@+id/l1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="Username:"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/editUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="input Username"
+            android:inputType="textPersonName"
+            android:textSize="17sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/l1"
+        android:layout_below="@id/l1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:text="Password:" />
+
+        <EditText
+            android:id="@+id/editPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="input Password"
+            android:inputType="textPassword"
+            android:textSize="17sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/l1"
+        android:layout_below="@id/l2"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/repassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:text="confirm Password:" />
+
+        <EditText
+            android:id="@+id/reeditPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Input Password again"
+            android:inputType="textPassword"
+            android:textSize="17sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/l1"
+        android:layout_below="@id/l3"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:text="E-mail:" />
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            android:textSize="17sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/login"
+        style="@android:style/Widget.Material.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/l2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:text="Login" />
+
+    <Button
+        android:id="@+id/register"
+        style="@android:style/Widget.Material.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/l4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Register"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/showRegister"
+        style="@android:style/Widget.Material.Button.Borderless.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register"
+        android:layout_centerHorizontal="true"
+        android:text="NO Account? Register One"
+        android:layout_marginTop="10dp"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/showlogin"
+        style="@android:style/Widget.Material.Button.Borderless.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register"
+        android:layout_centerHorizontal="true"
+        android:text="Alredy have an Account? Login"
+        android:textSize="10sp"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible" />
+
+</RelativeLayout>

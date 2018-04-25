@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +26,11 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MessageAdapter messageAdapter;
     TextView content;
-    String uri = "ws://echo.websocket.org";
+    String uri = "ws://"+LoginActivity.ip+":8080/chat";
     ChatListener chatListener = null;
     Reciver reciver;
     List<Message> messages = new ArrayList<Message>();
+    String username;
 
     @Override
     protected void onDestroy() {
@@ -41,9 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Fresco.initialize(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
+        Log.d("username", "onCreate: " + username);
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -64,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 if (!text.equals("")) {
                     chatListener.Socket.send(text);
                     message.setText("");
-                    messages.add(new Message("self", text, MessageAdapter.SELF_MESSAGE));
-                    messageAdapter.notifyItemInserted(messageAdapter.getItemCount() + 1);
-                    recyclerView.smoothScrollToPosition(messageAdapter.getItemCount());
                 }
             }
         });
@@ -77,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void connect() {
-        chatListener = new ChatListener();
+        chatListener = new ChatListener(username);
         Request request = new Request.Builder()
                 .url(uri)
                 .build();
@@ -92,9 +90,23 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message");
             Log.d("receive", "onReceive: " + message);
-            messages.add(new Message("echo", message, MessageAdapter.MESSAGE));
-            messageAdapter.notifyItemInserted(messageAdapter.getItemCount() + 1);
-            recyclerView.smoothScrollToPosition(messageAdapter.getItemCount());
+            int t;
+            if (message.indexOf("//:") != -1) {
+                if (message.substring(0, message.indexOf("//:")).equals(username)){
+                    t=MessageAdapter.SELF_MESSAGE;
+                }else {
+                    t=MessageAdapter.MESSAGE;
+                }
+                messages.add(new Message(message.substring(0, message.indexOf("//:")), message.substring(message.indexOf("//:") + 3), t));
+                messageAdapter.notifyItemInserted(messageAdapter.getItemCount() + 1);
+                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount());
+            }
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        chatListener.Socket.close(1000,"close");
     }
 }
