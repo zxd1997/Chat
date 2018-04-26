@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     final static int REGISTER_SUCCESS = 3;
     final static int ALREADY_EXISTS = 4;
     EditText username;
+    SimpleDraweeView bigheader;
     static String ip = "";
     String tmp;
     Handler handler = new Handler() {
@@ -53,6 +53,13 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("username", tmp);
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
+                    Intent intent1 = new Intent(LoginActivity.this, ChatService.class);
+                    String uri = "ws://" + ip + ":8080/chat";
+                    intent1.putExtra("username", tmp);
+                    intent1.putExtra("uri", uri);
+                    startService(intent1);
+                    MyApplication.setUsername(tmp);
+                    finish();
                     break;
                 }
                 case REGISTER_SUCCESS: {
@@ -61,6 +68,13 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("username", tmp);
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
+                    Intent intent1 = new Intent(LoginActivity.this, ChatService.class);
+                    String uri = "ws://" + ip + ":8080/chat";
+                    intent1.putExtra("username", tmp);
+                    intent1.putExtra("uri", uri);
+                    startService(intent1);
+                    MyApplication.setUsername(tmp);
+                    finish();
                     break;
                 }
                 case REGISTER_FAILED: {
@@ -79,10 +93,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
         Fresco.initialize(this);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
-        final SimpleDraweeView bigheader=findViewById(R.id.bigHeader);
+        bigheader = findViewById(R.id.bigHeader);
         final Button login = findViewById(R.id.login);
         final Button register = findViewById(R.id.register);
         final Button showreg = findViewById(R.id.showRegister);
@@ -94,14 +112,16 @@ public class LoginActivity extends AppCompatActivity {
         final EditText password = findViewById(R.id.editPassword);
         final EditText repassword = findViewById(R.id.reeditPassword);
         final EditText email = findViewById(R.id.editEmail);
-        bigheader.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        View rootView = findViewById(R.id.rootlayout);
+        rootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (bottom>oldBottom){
+                Log.d("change", "onLayoutChange: " + top + " " + oldTop + " " + bottom + " " + oldBottom);
+                if (bottom < oldBottom) {
                     RelativeLayout.LayoutParams lp=(RelativeLayout.LayoutParams) bigheader.getLayoutParams();
                     lp.setMargins(0,0,0,0);
                     bigheader.setLayoutParams(lp);
-                }else if (bottom<oldBottom){
+                } else if (bottom > oldBottom) {
                     RelativeLayout.LayoutParams lp=(RelativeLayout.LayoutParams) bigheader.getLayoutParams();
                     final float scale = getApplication().getResources().getDisplayMetrics().density;
                     lp.setMargins(0,0,0, (int)(70 * scale+0.5f));
@@ -113,6 +133,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final EditText editText = new EditText(LoginActivity.this);
+                editText.setText(ip);
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
                 AlertDialog dialog = alertDialog
                         .setMessage("Input Chat Server IP address")

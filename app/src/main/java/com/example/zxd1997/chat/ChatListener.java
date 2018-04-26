@@ -14,8 +14,9 @@ public class ChatListener extends WebSocketListener {
     WebSocket Socket;
     String username;
     LocalBroadcastManager localBroadcastManager;
-    public ChatListener(String usernmae){
-        this.username=usernmae;
+
+    public ChatListener() {
+        this.username = MyApplication.getUsername();
     }
     @Override
     public void onOpen(WebSocket webSocket, Response response) {

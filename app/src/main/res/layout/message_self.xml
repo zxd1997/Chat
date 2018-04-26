@@ -15,7 +15,7 @@
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_margin="5dp"
-        fresco:placeholderImage="@mipmap/ic_launcher_round"
+        fresco:placeholderImage="@drawable/freedomchild"
         fresco:roundAsCircle="true" />
 
     <TextView

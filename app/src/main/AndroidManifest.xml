@@ -14,18 +14,26 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="Chat"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize">
-
-        </activity>
-        <activity android:name=".LoginActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:label="Login"
-            android:theme="@style/AppTheme">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ChatActivity" />
+
+        <service
+            android:name=".ChatService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
