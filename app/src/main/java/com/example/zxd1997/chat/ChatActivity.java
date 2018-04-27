@@ -10,10 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +29,25 @@ public class ChatActivity extends AppCompatActivity {
     TextView content;
     List<Message> messages = new ArrayList<Message>();
     Receiver receiver;
-    String username;
-
+    String userfrom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        userfrom = intent.getStringExtra("from");
+        Log.d("userfrom", "onCreate: " + userfrom);
         chatUtil = ChatUtil.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        List<Message> temp = DataSupport
+                .where("from=? or to=?", userfrom, userfrom)
+                .find(Message.class);
+        for (Message i : temp) {
+            messages.add(i);
+        }
         messageAdapter = new MessageAdapter(messages);
         recyclerView.setAdapter(messageAdapter);
         recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -51,7 +63,11 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String text = message.getText().toString();
                 if (!text.equals("")) {
-                    chatUtil.send(text);
+                    if (userfrom.equals("all")) {
+                        chatUtil.send(MyApplication.getUsername() + "//:" + text);
+                    } else {
+                        chatUtil.send(MyApplication.getUsername() + "//:" + userfrom + "\\\\:" + text);
+                    }
                     message.setText("");
                 }
             }
@@ -61,22 +77,28 @@ public class ChatActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(MyApplication.getContext()).registerReceiver(receiver, intentFilter);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return false;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public class Receiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("message");
-            Log.d("receive", "onReceive: " + message);
-            int t;
-            if (message.indexOf("//:") != -1) {
-                if (message.substring(0, message.indexOf("//:")).equals(MyApplication.getUsername())) {
-                    t = MessageAdapter.SELF_MESSAGE;
-                } else {
-                    t = MessageAdapter.MESSAGE;
-                }
-                messages.add(new Message(message.substring(0, message.indexOf("//:")), message.substring(message.indexOf("//:") + 3), t));
-                messageAdapter.notifyItemInserted(messageAdapter.getItemCount() + 1);
-                recyclerView.smoothScrollToPosition(messageAdapter.getItemCount());
+            String from = intent.getStringExtra("from");
+            String to = intent.getStringExtra("to");
+            String content = intent.getStringExtra("content");
+            int type = intent.getIntExtra("type", MessageAdapter.MESSAGE);
+            if (userfrom.equals(from) || userfrom.equals(to)) {
+                messages.add(new Message(from, to, content, type));
+                messageAdapter.notifyItemInserted(messageAdapter.getItemCount());
             }
         }
     }

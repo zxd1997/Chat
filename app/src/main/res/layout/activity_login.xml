@@ -26,133 +26,108 @@
         fresco:placeholderImage="@drawable/freedomchild"
         fresco:roundAsCircle="true" />
 
-    <LinearLayout
-        android:id="@+id/l1"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="horizontal">
+        android:id="@+id/l1">
 
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:text="Username:"
-            android:textSize="14sp" />
-
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/editUsername"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="input Username"
+            android:hint="Username"
             android:inputType="textPersonName"
-            android:textSize="17sp"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            />
-    </LinearLayout>
+            android:singleLine="true"
+            android:textSize="18sp" />
+    </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/l2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/l1"
-        android:layout_below="@id/l1"
-        android:orientation="horizontal">
+        android:layout_below="@id/l1">
 
-        <TextView
-            android:id="@+id/password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:text="Password:" />
-
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/editPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="input Password"
+            android:hint="Password"
             android:inputType="textPassword"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:focusable="true"
             android:focusableInTouchMode="true"/>
 
-    </LinearLayout>
 
-    <LinearLayout
+    </android.support.design.widget.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/l1"
+        android:layout_below="@id/l2"
+        android:layout_marginTop="3dp"
+        android:text="Remember Password"
+        android:textSize="15sp" />
+
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/l3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/l1"
         android:layout_below="@id/l2"
-        android:orientation="horizontal"
         android:visibility="invisible"
         tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/repassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:text="confirm Password:" />
 
-        <EditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/reeditPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Input Password again"
             android:inputType="textPassword"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:focusable="true"
             android:focusableInTouchMode="true"/>
 
-    </LinearLayout>
+    </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
         android:id="@+id/l4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@id/l1"
         android:layout_below="@id/l3"
-        android:orientation="horizontal"
         android:visibility="invisible"
         tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:text="E-mail:" />
-
         <EditText
             android:id="@+id/editEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:focusable="true"
             android:focusableInTouchMode="true" />
 
-    </LinearLayout>
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/login"
         style="@android:style/Widget.Material.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/l2"
+        android:layout_below="@id/checkBox"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:textSize="16sp"
         android:text="Login" />

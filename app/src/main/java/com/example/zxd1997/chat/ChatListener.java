@@ -30,7 +30,32 @@ public class ChatListener extends WebSocketListener {
     public void onMessage(WebSocket webSocket, String text) {
         super.onMessage(webSocket, text);
         Log.d("message", "onMessage: " + text);
-        broadcast(text);
+        String from;
+        String to;
+        String content;
+        if (text.indexOf("//:") != -1) {
+            from = text.substring(0, text.indexOf("//:"));
+            text = text.substring(text.indexOf("//:") + 3);
+        } else {
+            from = "System";
+        }
+        if (text.indexOf("\\\\:") != -1) {
+            to = text.substring(0, text.indexOf("\\\\:"));
+            text = text.substring(text.indexOf("\\\\:") + 3);
+        } else {
+            to = "all";
+        }
+        content = text;
+        Log.d("message", "onMessage: " + "From:" + from + " To:" + to + " :" + content);
+        int type;
+        if (from.equals(MyApplication.getUsername())) {
+            type = MessageAdapter.SELF_MESSAGE;
+        } else {
+            type = MessageAdapter.MESSAGE;
+        }
+        Message message = new Message(from, to, content, type);
+        message.save();
+        broadcast(from, to, content, type);
     }
 
     @Override
@@ -53,9 +78,12 @@ public class ChatListener extends WebSocketListener {
         super.onFailure(webSocket, t, response);
     }
 
-    public void broadcast(String message) {
+    public void broadcast(String from, String to, String content, int type) {
         Intent intent = new Intent(MainActivity.MESSAGE_ACTION);
-        intent.putExtra("message", message);
+        intent.putExtra("from", from);
+        intent.putExtra("to", to);
+        intent.putExtra("content", content);
+        intent.putExtra("type", type);
         localBroadcastManager.sendBroadcast(intent);
     }
 }

@@ -34,6 +34,7 @@ public class ChatUtil {
         OkHttpClient client = new OkHttpClient();
         client.newWebSocket(request, chatListener);
         client.dispatcher().executorService().shutdown();
+
     }
 
     public void disConnect() {

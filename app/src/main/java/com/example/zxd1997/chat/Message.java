@@ -1,14 +1,35 @@
 package com.example.zxd1997.chat;
 
-public class Message {
-    private String name;
+import org.litepal.crud.DataSupport;
+
+public class Message extends DataSupport {
+    private String from;
+    private String to;
     private String content;
     private int type;
 
-    public Message(String name, String content, int type) {
-        this.name = name;
+    public Message(String from, String to, String content, int type) {
+
+        this.from = from;
+        this.to = to;
         this.content = content;
         this.type = type;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public int getType() {
@@ -19,13 +40,6 @@ public class Message {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getContent() {
         return content;

@@ -4,6 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import org.litepal.LitePal;
+
 public class ChatService extends Service {
     ChatUtil chatUtil;
 
@@ -12,10 +14,10 @@ public class ChatService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String username = intent.getStringExtra("username");
         String uri = intent.getStringExtra("uri");
         chatUtil = ChatUtil.getInstance(uri);
         chatUtil.connect();
+        LitePal.getDatabase();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -27,7 +29,6 @@ public class ChatService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

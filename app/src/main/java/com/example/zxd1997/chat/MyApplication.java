@@ -1,9 +1,10 @@
 package com.example.zxd1997.chat;
 
-import android.app.Application;
 import android.content.Context;
 
-public class MyApplication extends Application {
+import org.litepal.LitePalApplication;
+
+public class MyApplication extends LitePalApplication {
     private static Context context;
     private static String username;
     public static Context getContext() {

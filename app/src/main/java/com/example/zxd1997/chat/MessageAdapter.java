@@ -37,11 +37,11 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == MESSAGE) {
             ViewHolder viewHolder = (ViewHolder) holder;
-            viewHolder.name.setText(messages.get(position).getName());
+            viewHolder.name.setText(messages.get(position).getFrom());
             viewHolder.content.setText(messages.get(position).getContent());
         } else {
             SelfHolder viewHolder = (SelfHolder) holder;
-            viewHolder.name.setText(messages.get(position).getName());
+            viewHolder.name.setText(messages.get(position).getFrom());
             viewHolder.content.setText(messages.get(position).getContent());
         }
     }

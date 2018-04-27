@@ -3,14 +3,20 @@ package com.example.zxd1997.chat;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -50,12 +56,10 @@ public class LoginActivity extends AppCompatActivity {
                 case LOGIN_SUCCESS: {
                     Toast.makeText(getApplicationContext(), "Login Success!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("username", tmp);
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     Intent intent1 = new Intent(LoginActivity.this, ChatService.class);
                     String uri = "ws://" + ip + ":8080/chat";
-                    intent1.putExtra("username", tmp);
                     intent1.putExtra("uri", uri);
                     startService(intent1);
                     MyApplication.setUsername(tmp);
@@ -65,12 +69,10 @@ public class LoginActivity extends AppCompatActivity {
                 case REGISTER_SUCCESS: {
                     Toast.makeText(getApplicationContext(), "Register Success!Loged in", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("username", tmp);
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     Intent intent1 = new Intent(LoginActivity.this, ChatService.class);
                     String uri = "ws://" + ip + ":8080/chat";
-                    intent1.putExtra("username", tmp);
                     intent1.putExtra("uri", uri);
                     startService(intent1);
                     MyApplication.setUsername(tmp);
@@ -112,7 +114,16 @@ public class LoginActivity extends AppCompatActivity {
         final EditText password = findViewById(R.id.editPassword);
         final EditText repassword = findViewById(R.id.reeditPassword);
         final EditText email = findViewById(R.id.editEmail);
+        final CheckBox checkBox = findViewById(R.id.checkBox);
         View rootView = findViewById(R.id.rootlayout);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isRemember = sharedPreferences.getBoolean("remember", false);
+        ip = sharedPreferences.getString("ip", "");
+        if (isRemember) {
+            username.setText(sharedPreferences.getString("username", ""));
+            password.setText(sharedPreferences.getString("password", ""));
+            checkBox.setChecked(true);
+        }
         rootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -132,12 +143,27 @@ public class LoginActivity extends AppCompatActivity {
         ipconfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText editText = new EditText(LoginActivity.this);
+                android.support.design.widget.TextInputLayout textInputLayout = new android.support.design.widget.TextInputLayout(LoginActivity.this);
+                final TextInputEditText editText = new TextInputEditText(LoginActivity.this);
+                editText.setHint("Input IP Address");
+                editText.setFocusable(true);
+                editText.setFocusableInTouchMode(true);
+                textInputLayout.addView(editText);
+                editText.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+                editText.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(editText.getLayoutParams());
+                final float scale = getApplication().getResources().getDisplayMetrics().density;
+                layoutParams.setMargins((int) (15 * scale + 0.5f), 0, (int) (15 * scale + 0.5f), 0);
+                editText.setLayoutParams(layoutParams);
                 editText.setText(ip);
+                if (ip.equals("")) {
+                    editText.getText().clear();
+                }
+                editText.clearFocus();
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
                 AlertDialog dialog = alertDialog
-                        .setMessage("Input Chat Server IP address")
-                        .setView(editText)
+                        .setMessage("IP Config")
+                        .setView(textInputLayout)
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -148,6 +174,9 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ip = editText.getText().toString();
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("ip", ip);
+                                editor.apply();
                                 String uri = "http://" + ip + ":8080/LoginServlet";
                                 Log.d("uri", "onCreate: " + uri);
                             }
@@ -190,6 +219,17 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("response", "onResponse: " + res);
                             if (res.equals("true")) {
                                 tmp = userName;
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                if (checkBox.isChecked()) {
+                                    editor.putBoolean("remember", true);
+                                    editor.putString("username", userName);
+                                    editor.putString("password", passWord);
+                                } else {
+                                    editor.putBoolean("remember", false);
+                                    editor.putString("username", "");
+                                    editor.putString("password", "");
+                                }
+                                editor.apply();
                                 message.what = LOGIN_SUCCESS;
                             } else {
                                 message.what = LOGIN_FAILED;
@@ -275,6 +315,7 @@ public class LoginActivity extends AppCompatActivity {
                 showreg.setVisibility(View.INVISIBLE);
                 register.setVisibility(View.VISIBLE);
                 showlogin.setVisibility(View.VISIBLE);
+                checkBox.setVisibility(View.INVISIBLE);
             }
         });
         showlogin.setOnClickListener(new View.OnClickListener() {
@@ -286,6 +327,7 @@ public class LoginActivity extends AppCompatActivity {
                 showreg.setVisibility(View.VISIBLE);
                 register.setVisibility(View.INVISIBLE);
                 showlogin.setVisibility(View.INVISIBLE);
+                checkBox.setVisibility(View.VISIBLE);
             }
         });
     }
