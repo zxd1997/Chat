@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     //    MessageAdapter messageAdapter;
 //    TextView content;
-    String uri = "ws://"+LoginActivity.ip+":8080/chat";
     ChatUtil chatUtil = null;
     Receiver receiver;
     ListAdapter listAdapter;
@@ -140,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 username = editText.getText().toString();
-                                String uri = "http://" + LoginActivity.ip + ":8080/LoginServlet";
+                                String uri = "http://123.207.165.210:8080/Chat_war_exploded/LoginServlet";
                                 Log.d("uri", "onCreate: " + uri);
                                 final Request request = new Request.Builder()
                                         .post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=utf-8"), "username=" + username + "&type=" + "Validate"))

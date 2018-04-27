@@ -1,23 +1,17 @@
 package com.example.zxd1997.chat;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -59,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     Intent intent1 = new Intent(LoginActivity.this, ChatService.class);
-                    String uri = "ws://" + ip + ":8080/chat";
+                    String uri = "ws://123.207.165.210:8080/Chat_war_exploded/chat";
                     intent1.putExtra("uri", uri);
                     startService(intent1);
                     MyApplication.setUsername(tmp);
@@ -72,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     Intent intent1 = new Intent(LoginActivity.this, ChatService.class);
-                    String uri = "ws://" + ip + ":8080/chat";
+                    String uri = "ws://123.207.165.210:8080/Chat_war_exploded/chat";
                     intent1.putExtra("uri", uri);
                     startService(intent1);
                     MyApplication.setUsername(tmp);
@@ -107,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button register = findViewById(R.id.register);
         final Button showreg = findViewById(R.id.showRegister);
         final Button showlogin = findViewById(R.id.showlogin);
-        final ImageButton ipconfig = findViewById(R.id.ip);
+//        final ImageButton ipconfig = findViewById(R.id.ip);
         final LinearLayout l3 = findViewById(R.id.l3);
         final LinearLayout l4 = findViewById(R.id.l4);
         username = findViewById(R.id.editUsername);
@@ -118,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         View rootView = findViewById(R.id.rootlayout);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isRemember = sharedPreferences.getBoolean("remember", false);
-        ip = sharedPreferences.getString("ip", "");
+//        ip = sharedPreferences.getString("ip", "");
         if (isRemember) {
             username.setText(sharedPreferences.getString("username", ""));
             password.setText(sharedPreferences.getString("password", ""));
@@ -140,64 +134,65 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-        ipconfig.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.design.widget.TextInputLayout textInputLayout = new android.support.design.widget.TextInputLayout(LoginActivity.this);
-                final TextInputEditText editText = new TextInputEditText(LoginActivity.this);
-                editText.setHint("Input IP Address");
-                editText.setFocusable(true);
-                editText.setFocusableInTouchMode(true);
-                textInputLayout.addView(editText);
-                editText.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-                editText.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(editText.getLayoutParams());
-                final float scale = getApplication().getResources().getDisplayMetrics().density;
-                layoutParams.setMargins((int) (15 * scale + 0.5f), 0, (int) (15 * scale + 0.5f), 0);
-                editText.setLayoutParams(layoutParams);
-                editText.setText(ip);
-                if (ip.equals("")) {
-                    editText.getText().clear();
-                }
-                editText.clearFocus();
-                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
-                AlertDialog dialog = alertDialog
-                        .setMessage("IP Config")
-                        .setView(textInputLayout)
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ip = editText.getText().toString();
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("ip", ip);
-                                editor.apply();
-                                String uri = "http://" + ip + ":8080/LoginServlet";
-                                Log.d("uri", "onCreate: " + uri);
-                            }
-                        }).create();
-                dialog.show();
-            }
-        });
+//        ipconfig.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                android.support.design.widget.TextInputLayout textInputLayout = new android.support.design.widget.TextInputLayout(LoginActivity.this);
+//                final TextInputEditText editText = new TextInputEditText(LoginActivity.this);
+//                editText.setHint("Input IP Address");
+//                editText.setFocusable(true);
+//                editText.setFocusableInTouchMode(true);
+//                textInputLayout.addView(editText);
+//                editText.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+//                editText.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+//                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(editText.getLayoutParams());
+//                final float scale = getApplication().getResources().getDisplayMetrics().density;
+//                layoutParams.setMargins((int) (15 * scale + 0.5f), 0, (int) (15 * scale + 0.5f), 0);
+//                editText.setLayoutParams(layoutParams);
+//                editText.setText(ip);
+//                if (ip.equals("")) {
+//                    editText.getText().clear();
+//                }
+//                editText.clearFocus();
+//                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
+//                AlertDialog dialog = alertDialog
+//                        .setMessage("IP Config")
+//                        .setView(textInputLayout)
+//                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                            }
+//                        })
+//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                ip = editText.getText().toString();
+//                                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                editor.putString("ip", ip);
+//                                editor.apply();
+//                                String uri = "http://123.207.165.210:8080/Chat_war_exploded/LoginServlet";
+//                                Log.d("uri", "onCreate: " + uri);
+//                            }
+//                        }).create();
+//                dialog.show();
+//            }
+//        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String userName = username.getText().toString();
                 final String passWord = password.getText().toString();
                 Log.d("username", "onClick: " + userName + "\n" + passWord);
-                if (ip.equals("")) {
-                    Toast.makeText(getApplicationContext(), "You need to config ip first!", Toast.LENGTH_SHORT).show();
-                } else if (userName.equals("")) {
+//                if (ip.equals("")) {
+//                    Toast.makeText(getApplicationContext(), "You need to config ip first!", Toast.LENGTH_SHORT).show();
+//                } else
+                if (userName.equals("")) {
                     username.requestFocus();
                 } else if (passWord.equals("")) {
                     password.requestFocus();
                 } else {
-                    String uri = "http://" + ip + ":8080/LoginServlet";
+                    String uri = "http://123.207.165.210:8080/Chat_war_exploded/LoginServlet";
                     Log.d("uri", "onCreate: " + uri);
                     Request request = new Request.Builder()
                             .post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=utf-8"), "username=" + userName + "&password=" + passWord + "&type=" + "Login"))
@@ -248,9 +243,10 @@ public class LoginActivity extends AppCompatActivity {
                 final String cfpassWord = repassword.getText().toString();
                 final String Email = email.getText().toString();
                 Log.d("username", "onClick: " + userName + "\n" + passWord + "\n" + Email);
-                if (ip.equals("")) {
-                    Toast.makeText(getApplicationContext(), "You need to config ip first!", Toast.LENGTH_SHORT).show();
-                } else if (userName.equals("")) {
+//                if (ip.equals("")) {
+//                    Toast.makeText(getApplicationContext(), "You need to config ip first!", Toast.LENGTH_SHORT).show();
+//                } else
+                if (userName.equals("")) {
                     username.requestFocus();
                 } else if (passWord.equals("")) {
                     password.requestFocus();
@@ -262,7 +258,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password mismatch!", Toast.LENGTH_SHORT).show();
                     repassword.requestFocus();
                 } else {
-                    String uri = "http://" + ip + ":8080/LoginServlet";
+                    String uri = "http://123.207.165.210:8080/Chat_war_exploded/LoginServlet";
                     Log.d("uri", "onCreate: " + uri);
                     Request request = new Request.Builder()
                             .post(RequestBody.create(MediaType.parse("application/x-www-form-urlencoded;charset=utf-8"), "username=" + userName + "&password=" + passWord + "&email=" + Email + "&type=" + "Register"))

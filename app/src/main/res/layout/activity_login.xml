@@ -7,14 +7,14 @@
     android:id="@+id/rootlayout"
     tools:context=".LoginActivity">
 
-    <ImageButton
-        android:id="@+id/ip"
-        style="@android:style/Widget.Material.Button.Borderless"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        fresco:srcCompat="@android:drawable/ic_menu_edit"
-        android:layout_alignParentRight="true"
-        />
+    <!--<ImageButton-->
+    <!--android:id="@+id/ip"-->
+    <!--style="@android:style/Widget.Material.Button.Borderless"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp"-->
+    <!--fresco:srcCompat="@android:drawable/ic_menu_edit"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--/>-->
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/bigHeader"
