@@ -46,7 +46,11 @@ public class ChatActivity extends AppCompatActivity {
                 .where("from=? or to=?", userfrom, userfrom)
                 .find(Message.class);
         for (Message i : temp) {
-            messages.add(i);
+            if (!userfrom.equals("all")) {
+                if (i.getFrom().equals("all") || i.getTo().equals("all")) {
+                    continue;
+                } else messages.add(i);
+            } else messages.add(i);
         }
         messageAdapter = new MessageAdapter(messages);
         recyclerView.setAdapter(messageAdapter);
@@ -97,8 +101,15 @@ public class ChatActivity extends AppCompatActivity {
             String content = intent.getStringExtra("content");
             int type = intent.getIntExtra("type", MessageAdapter.MESSAGE);
             if (userfrom.equals(from) || userfrom.equals(to)) {
-                messages.add(new Message(from, to, content, type));
-                messageAdapter.notifyItemInserted(messageAdapter.getItemCount());
+                if (from.equals("all") || to.equals("all")) {
+                    if (userfrom.equals("all")) {
+                        messages.add(new Message(from, to, content, type));
+                        messageAdapter.notifyItemInserted(messageAdapter.getItemCount());
+                    } else return;
+                } else {
+                    messages.add(new Message(from, to, content, type));
+                    messageAdapter.notifyItemInserted(messageAdapter.getItemCount());
+                }
             }
         }
     }
