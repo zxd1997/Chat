@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16sp"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_send"
+        android:src="@drawable/ic_add_black_24dp"
         app:layout_anchor="@id/list"
         app:layout_anchorGravity="bottom|right"
         app:pressedTranslationZ="12dp" />
